@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">VowelCounter</string>
+  <string name="dialog_text">Wpisany tekst nie może być pusty"</string>
+  <string name="dialog_ok">OK</string>
+  <string name="clear_button">Wyszyść</string>
+  <string name="view_vowel_counter">ZLICZ SAMOGŁOSKI</string>
+
+</resources>
