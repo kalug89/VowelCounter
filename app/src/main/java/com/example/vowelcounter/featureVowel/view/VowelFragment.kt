@@ -11,8 +11,6 @@ import androidx.lifecycle.observe
 import com.example.vowelcounter.R
 import com.example.vowelcounter.featureVowel.logic.VowelViewModel
 import kotlinx.android.synthetic.main.vowel_fragment.*
-import java.util.*
-
 
 class VowelFragment : Fragment(R.layout.vowel_fragment) {
 
@@ -55,14 +53,13 @@ class VowelFragment : Fragment(R.layout.vowel_fragment) {
 
     private fun handleSearchText() {
         viewModel.getSearchEnteredText().observe(viewLifecycleOwner) { searchText ->
-            val doubleString = searchText + searchText
-            view_content_text.text = doubleString
+            view_content_text.text = searchText
         }
     }
 
     private fun handleEmptySearch() {
         viewModel.getValidationEmptySearch().observe(viewLifecycleOwner) {
-            showDialogAlert()
+            showEmptySearchTextDialog()
             vibrate()
         }
     }
@@ -86,7 +83,7 @@ class VowelFragment : Fragment(R.layout.vowel_fragment) {
         }
     }
 
-    private fun showDialogAlert() {
+    private fun showEmptySearchTextDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.dialog_text)
         builder.setPositiveButton(R.string.dialog_ok) { _, _ ->
@@ -101,17 +98,7 @@ class VowelFragment : Fragment(R.layout.vowel_fragment) {
         vibrator.vibrate(200)
     }
 
-    private fun calculateVowelInText(searchtext: String) {
-        val lowerCaseSearchText = searchtext.toLowerCase(Locale.ROOT)
-        var vowels = 0
-        for (character in lowerCaseSearchText) {
-            if (character == 'a' || character == 'e' || character == 'i'
-                || character == 'o' || character == 'u' || character == 'y'
-                || character == 'ą' || character == 'ę' || character == 'ó'
-            ) {
-                ++vowels
-            }
-        }
-        view_vowel_counter_text.text = vowels.toString()
+    private fun calculateVowelInText(searchText: String) {
+        view_vowel_counter_text.text = viewModel.calculateVowelInText(searchText).toString()
     }
 }

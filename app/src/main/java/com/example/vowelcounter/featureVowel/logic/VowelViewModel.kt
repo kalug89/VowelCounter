@@ -11,17 +11,17 @@ class VowelViewModel : ViewModel() {
 
     private val searchEnteredTexForVowelLiveData = MutableLiveData<String>()
 
-    private val validationEmptySearchLiveEvent = MutableLiveEvent<Unit>()
+    private val validateEmptySearchLiveEvent = MutableLiveEvent<Unit>()
 
     private val clearTextLiveDataEvent = MutableLiveEvent<String>()
 
-    private val clearContentTextLiveData = MutableLiveData<String>()
+    private val clearContentTextLiveEvent = MutableLiveEvent<String>()
 
-    fun getClearContentText(): LiveData<String> = clearContentTextLiveData
+    fun getClearContentText(): LiveData<String> = clearContentTextLiveEvent
 
     fun getClearSearchText(): LiveData<String> = clearTextLiveDataEvent
 
-    fun getValidationEmptySearch(): LiveData<Unit> = validationEmptySearchLiveEvent
+    fun getValidationEmptySearch(): LiveData<Unit> = validateEmptySearchLiveEvent
 
     fun getSearchEnteredText(): LiveData<String> = searchEnteredTextLiveData
 
@@ -44,7 +44,7 @@ class VowelViewModel : ViewModel() {
     }
 
     private fun clearContentText() {
-        clearContentTextLiveData.value = ""
+        clearContentTextLiveEvent.value = ""
     }
 
     private fun clearSearchText() {
@@ -52,14 +52,31 @@ class VowelViewModel : ViewModel() {
     }
 
     private fun showValidationEmptySearch() {
-        validationEmptySearchLiveEvent.value = Unit
+        validateEmptySearchLiveEvent.value = Unit
     }
 
     private fun showTextFromSearch(text: CharSequence) {
-        searchEnteredTextLiveData.value = text.toString()
+        searchEnteredTextLiveData.value = text.toString() + text.toString()
     }
 
     private fun showTextFromSearchToVowel(text: CharSequence) {
         searchEnteredTexForVowelLiveData.value = text.toString()
+    }
+
+    fun calculateVowelInText(searchText: String): Int {
+        val numberOfVowel: Int
+        fun Char.isVowel(): Boolean =  this.toLowerCase() == 'a'
+                || this.toLowerCase() == 'e'
+                || this.toLowerCase() == 'i'
+                || this.toLowerCase() == 'o'
+                || this.toLowerCase() == 'u'
+                || this.toLowerCase() == 'y'
+                || this.toLowerCase() == 'ą'
+                || this.toLowerCase() == 'ę'
+                || this.toLowerCase() == 'ó'
+
+        val vowel = searchText.filter { e -> e.isVowel()}
+        numberOfVowel = vowel.count()
+        return numberOfVowel
     }
 }
